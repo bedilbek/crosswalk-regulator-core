@@ -1,5 +1,6 @@
-from analyzer.classes.select_region import Region
+import os
+import sys
 
-region = Region()
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-
+sys.path.append(BASE_DIR)
