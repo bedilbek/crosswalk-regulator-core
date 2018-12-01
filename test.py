@@ -17,15 +17,14 @@ objects.append(p1)
 
 # objects.append(Person(1, Point(1, 5), Point(1.3, 5), 'lr'))
 # objects.append(Person(2, Point(9.7, 4), Point(10, 5), 'rl'))
-p2 = Person(Point(6, 5), Point(6.3, 5), 'lr')
+p2 = Person(Point(6, 5), Point(6.3, 5), 'lr', 1)
 objects.append(p2)
 
-p3 = Person(Point(4, 4), Point(5, 4), 'rl')
+p3 = Person(Point(4, 4), Point(5, 4), 'rl', 2)
 objects.append(p3)
 
-p4 = Person(Point(2, 4), Point(2.3, 5), 'rl')
+p4 = Person(Point(2, 4), Point(2.3, 5), 'rl', 3)
 objects.append(p4)
-
 
 analyze(objects, region)
 
