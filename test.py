@@ -1,6 +1,6 @@
 from analyzer.classes.analyze import analyze
 from analyzer.classes.objects import Person, Car
-from analyzer.classes.select_region import Region, Point
+from utils.figures import Region, Point
 
 region = Region()
 region.add_corner(Point(2, 1))

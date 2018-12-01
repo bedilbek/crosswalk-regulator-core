@@ -21,7 +21,13 @@ class Point(object):
 class Region(object):
     corners = list()
 
+    @property
+    def is_ready(self):
+        return len(self.corners) == 4
+
     def add_corner(self, point):
+        if self.is_ready:
+            return
         self.corners.append(point)
 
     def sort(self):
@@ -76,6 +82,12 @@ class Region(object):
     @property
     def bottom_line(self):
         return self.corners[0], self.corners[1]
+
+    def __str__(self):
+        return (f"left-line: {self.left_line} \n"
+                f"top-line, {self.top_line}\n"
+                f"right-line, {self.right_line}\n"
+                f"bottom-line, {self.bottom_line}\n")
 
 
 class Line(object):

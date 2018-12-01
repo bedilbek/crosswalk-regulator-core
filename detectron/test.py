@@ -1,4 +1,5 @@
 from analyzer.classes.objects import Person, Car
+from detectron.region_detection import RegionDetection
 from utils.figures import Point
 from utils.make_objects import make_objects
 
@@ -16,5 +17,9 @@ assert len(object_list) == 4
 
 assert isinstance(object_list[0], Person)
 assert isinstance(object_list[3], Car)
+
+region_detection = RegionDetection(0)
+region = region_detection.detect_region()
+
 
 print("Test successfully finished")
