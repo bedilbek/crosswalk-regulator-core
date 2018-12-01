@@ -38,7 +38,7 @@ class Detect(object):
                 frame = cv2.rectangle(frame, tl, br, color, 7)
                 frame = cv2.putText(frame, label, tl, cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
             #  checking for violation
-            violated = analyze_image(make_objects(data=data))
+            violated = analyze_image(make_objects(data=data))  # Fixme: pass region
             # TODO should be completed for the case of detected violation
             cv2.imshow('frame', frame)
             # print('FPS {:.1f}'.format(1 / (time.time() - stime)))
