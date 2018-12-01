@@ -1,6 +1,6 @@
 import operator
 
-from .select_region import Region
+from utils.figures import Region
 
 # TODO: crossable line
 crossable_lines = list()

@@ -1,6 +1,6 @@
 import numpy as np
 
-from .select_region import Point, Region
+from utils.figures import Point, Region
 
 
 class Object(object):
@@ -67,6 +67,7 @@ class Person(Object):
         else:
             self.direction = 'rl'
 
+    # initialize new person or update
     @classmethod
     def update_or_add(cls, persons: list, person, region):
         direction = dict(
