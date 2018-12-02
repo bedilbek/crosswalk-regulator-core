@@ -26,7 +26,7 @@ class ObjectDetection(object):
         self.tfnet = TFNet(self.option)
         self.region = region
         self.cap = cv2.VideoCapture(source)
-        self.cap.set(cv2.CAP_PROP_FPS, 2)
+        self.cap.set(cv2.CAP_PROP_FPS, VIDEO_IN_FPS)
 
     def detect(self):
         processed_frame_counter = 0

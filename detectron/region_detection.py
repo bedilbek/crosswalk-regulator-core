@@ -21,8 +21,8 @@ class RegionDetection(object):
         cv2.setMouseCallback('region', on_mouse)
 
     def detect_region(self):
-        while True:
-            _, image_frame = self.capture.read()
+        _, image_frame = self.capture.read()
+        while _:
             if region.is_ready:
                 # region.sort()
                 image_frame = region.draw_region(image_frame)
