@@ -4,6 +4,7 @@ import cv2
 from uuid import uuid4
 
 from PIL import Image
+from pytesseract import image_to_string, Output
 
 from analyzer.analyze_image import analyze_image
 from settings import *
@@ -35,6 +36,7 @@ class ObjectDetection(object):
             video_fps = self.cap.get(cv2.CAP_PROP_FPS)
             video_size = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
                           int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+            text_image = frame.copy()
             video_out_settings[2] = video_fps
             video_out_settings[3] = video_size
             out = cv2.VideoWriter(*video_out_settings)
@@ -60,6 +62,12 @@ class ObjectDetection(object):
                 out.write(frame)
             else:
                 out.write(frame)
+            validation = analyze_image(make_objects(data), self.region)
+            if validation:
+                #text_image = cv2.resize(text_image, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
+                #text = image_to_string(image=text_image, config=path.join(BASE_DIR, TESSERACT_CONFIG_PATH, 'bazaar'),
+                 #                      output_type=Output.STRING)
+                cv2.putText(frame, "violation: ", (50, 50), cv2.FONT_HERSHEY_COMPLEX, 2, (255, 232, 0), 2)
             frame_counter += 1
             if PROCESSED_VIDEO_FRAME_COUNTER_PREVIEW:
                 processed_frame_counter += 1
