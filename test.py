@@ -8,28 +8,228 @@ region.add_corner(Point(10, 1))
 region.add_corner(Point(2, 10))
 region.add_corner(Point(10, 10))
 region.sort()
-# for p in region.corners:
-#     print(p)
-
 objects = list()
-p1 = Person(Point(1, 5), Point(2, 5))
-objects.append(p1)
 
-# objects.append(Person(1, Point(1, 5), Point(1.3, 5), 'lr'))
-# objects.append(Person(2, Point(9.7, 4), Point(10, 5), 'rl'))
-p2 = Person(Point(6, 5), Point(6.3, 5), 'lr', 1)
-objects.append(p2)
 
-p3 = Person(Point(4, 4), Point(5, 4), 'rl', 2)
-objects.append(p3)
+def testing_left_right():
+    """
+    testing from left to right with 2 persons and 1 car
+    :return:
+    """
+    p1 = Person(Point(1, 5), Point(2, 5))
+    objects.append(p1)
+    objects.append(Car(Point(5, 20), Point(7, 10), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
 
-p4 = Person(Point(2, 4), Point(2.3, 5), 'rl', 3)
-objects.append(p4)
+    p1 = Person(Point(2, 5), Point(3, 5))
+    objects.append(p1)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
 
-analyze(objects, region)
+    p1 = Person(Point(1, 5), Point(2, 5))
+    objects.append(p1)
+    p2 = Person(Point(3, 5), Point(4, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
 
-objects.clear()
-p5 = Person(Point(5, 4), Point(6, 4))
-objects.append(p5)
-objects.append(Car(1, Point(5, 20), Point(7, 10), 'tb'))
-analyze(objects, region)
+    p1 = Person(Point(2, 5), Point(3, 5))
+    objects.append(p1)
+    p2 = Person(Point(4, 5), Point(5, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(2, 5), Point(3, 5))
+    objects.append(p1)
+    p2 = Person(Point(5, 5), Point(6, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(2, 5), Point(3, 5))
+    objects.append(p1)
+    p2 = Person(Point(6, 5), Point(7, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(2, 5), Point(3, 5))
+    objects.append(p1)
+    p2 = Person(Point(7, 5), Point(8, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(2, 5), Point(3, 5))
+    objects.append(p1)
+    p2 = Person(Point(8, 5), Point(9, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(2, 5), Point(3, 5))
+    objects.append(p1)
+    p2 = Person(Point(9, 5), Point(10, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(2, 5), Point(3, 5))
+    objects.append(p1)
+    p2 = Person(Point(10, 5), Point(11, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(2, 5), Point(3, 5))
+    objects.append(p1)
+    p2 = Person(Point(11, 5), Point(12, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 7), 'tb'))
+    result = analyze(objects, region)
+    assert result != []
+    objects.clear()
+
+    p1 = Person(Point(2, 5), Point(3, 5))
+    objects.append(p1)
+    p2 = Person(Point(11, 5), Point(12, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 15), Point(7, 4), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+
+def testing_right_left():
+    """
+    testing from left to right with 2 persons and 1 car
+    :return:
+    """
+    p1 = Person(Point(10, 5), Point(11, 5))
+    objects.append(p1)
+    objects.append(Car(Point(5, 20), Point(7, 10), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(9, 5), Point(10, 5))
+    objects.append(p1)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(8, 5), Point(9, 5))
+    objects.append(p1)
+    p2 = Person(Point(10, 5), Point(11, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(7, 5), Point(8, 5))
+    objects.append(p1)
+    p2 = Person(Point(9, 5), Point(10, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(6, 5), Point(7, 5))
+    objects.append(p1)
+    p2 = Person(Point(9, 5), Point(10, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(5, 5), Point(6, 5))
+    objects.append(p1)
+    p2 = Person(Point(9, 5), Point(10, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(4, 5), Point(5, 5))
+    objects.append(p1)
+    p2 = Person(Point(9, 5), Point(10, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(3, 5), Point(4, 5))
+    objects.append(p1)
+    p2 = Person(Point(9, 5), Point(10, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(2, 5), Point(3, 5))
+    objects.append(p1)
+    p2 = Person(Point(9, 5), Point(10, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(1, 5), Point(2, 5))
+    objects.append(p1)
+    p2 = Person(Point(9, 5), Point(10, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 9), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+    p1 = Person(Point(0, 5), Point(1, 5))
+    objects.append(p1)
+    p2 = Person(Point(9, 5), Point(10, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 20), Point(7, 7), 'tb'))
+    result = analyze(objects, region)
+    assert result != []
+    objects.clear()
+
+    p1 = Person(Point(0, 5), Point(1, 5))
+    objects.append(p1)
+    p2 = Person(Point(9, 5), Point(10, 5))
+    objects.append(p2)
+    objects.append(Car(Point(5, 15), Point(7, 4), 'tb'))
+    result = analyze(objects, region)
+    assert result == []
+    objects.clear()
+
+
+testing_left_right()
+testing_right_left()

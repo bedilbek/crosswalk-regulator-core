@@ -1,5 +1,6 @@
 import operator
 
+from analyzer.classes.objects import Car
 from utils.figures import Region
 
 # TODO: crossable line
@@ -46,7 +47,7 @@ def analyze(object_list: list, region: Region):
         index = 0
         size = len(cars)
         for _ in range(size):
-            if not (max_b > cars[index].point_r_b.y > min_b):
+            if not (max_b - Car.bound_pixel > cars[index].point_r_b.y > min_b):
                 cars.pop(index)
             else:
                 index += 1
@@ -91,8 +92,9 @@ def analyze(object_list: list, region: Region):
     from analyzer.classes.objects import Person
     for person in person_list:
         Person.update_or_add(global_person_list, person, region)
-    filter_persons(global_person_list)  # filter persons who is in region respect to left and right lines
-    crossable_line = find_crossable_line(global_person_list)  # find crossable line using filtered persons
-    filter_cars(car_list, global_person_list)  # filter cars respect to filtered users
+    persons_history = list(global_person_list)
+    filter_persons(persons_history)  # filter persons who is in region respect to left and right lines
+    crossable_line = find_crossable_line(persons_history)  # find crossable line using filtered persons
+    filter_cars(car_list, persons_history)  # filter cars respect to filtered users
     detect_cars(car_list, crossable_line)  # detect cars respect to crossable line
     return car_list

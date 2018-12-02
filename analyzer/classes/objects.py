@@ -13,13 +13,18 @@ class Object(object):
 
 
 class Person(Object):
-    index = 0
+    index = 1
     bound_pixel = 2
 
     def __init__(self, point_l_t, point_r_b, direction=None, pk=None):
         super(Person, self).__init__(obj_type='person', point_l_t=point_l_t, point_r_b=point_r_b,
                                      direction=direction, pk=pk)
-        self.center = round((self.point_l_t.x + self.point_r_b.x) / 2), round((self.point_l_t.y + self.point_r_b.y) / 2)
+        self.center = (self.point_l_t.x + self.point_r_b.x) / 2, (self.point_l_t.y + self.point_r_b.y) / 2
+
+    def set_bounds(self, point_l_t, point_r_b):
+        self.point_l_t = point_l_t
+        self.point_r_b = point_r_b
+        self.center = (self.point_l_t.x + self.point_r_b.x) / 2, (self.point_l_t.y + self.point_r_b.y) / 2
 
     @property
     def x_cross_point(self):
@@ -80,17 +85,19 @@ class Person(Object):
             array = array - [*person.center, 0, 0]
             array.view('i8,i8,i8,i8').sort(order=['f0', 'f1'], axis=0)
         for i, data in enumerate(array):
-            if 0 > person.center[0] - data[0] > -cls.bound_pixel and data[3] == 1:
-                # going left
-                target: Person = filter(lambda p: p.pk == data[2], persons)
-                target.point_l_t = person.point_l_t
-                target.point_r_b = person.point_r_b
+            if 0 > data[0] > -cls.bound_pixel and int(data[3]) == 1:
+                # going from left
+                target: Person = list(filter(lambda p: p.pk == int(data[2]), persons))[0]
+                target.set_bounds(person.point_l_t, person.point_r_b)
                 return
-            elif 0 < person.center[0] - data[0] < cls.bound_pixel and data[3] == 2:
-                # going right
-                target = filter(lambda p: p.pk == data[2], persons)
-                target.point_l_t = person.point_l_t
-                target.point_r_b = person.point_r_b
+            elif 0 < data[0] < cls.bound_pixel and data[3] == 2:
+                # going from right
+                target: Person = list(filter(lambda p: p.pk == int(data[2]), persons))[0]
+                target.set_bounds(person.point_l_t, person.point_r_b)
+                return
+            elif data[0] == float(0) and data[1] == float(0):
+                target: Person = list(filter(lambda p: p.pk == int(data[2]), persons))[0]
+                target.set_bounds(person.point_l_t, person.point_r_b)
                 return
         person.pk = cls.index
         person.find_direction(region)
@@ -100,6 +107,8 @@ class Person(Object):
 
 
 class Car(Object):
+    bound_pixel = 2
+
     def __init__(self, point_l_t, point_r_b, direction=None, pk=None):
         super(Car, self).__init__(obj_type='car', point_l_t=point_l_t, point_r_b=point_r_b,
                                   direction=direction, pk=pk)
