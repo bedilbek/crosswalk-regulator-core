@@ -92,12 +92,14 @@ def analyze(object_list: list, region: Region):
         person_list = object_list[barrier + 1:]  # get persons from list
     else:
         person_list = object_list
+        car_list = None
     from analyzer.classes.objects import Person
     for person in person_list:
         Person.update_or_add(global_person_list, person, region)
     persons_history = list(global_person_list)
     filter_persons(persons_history)  # filter persons who is in region respect to left and right lines
     crossable_line = find_crossable_line(persons_history)  # find crossable line using filtered persons
-    filter_cars(car_list, persons_history)  # filter cars respect to filtered users
+    if car_list:
+        filter_cars(car_list, persons_history)  # filter cars respect to filtered users
     detect_cars(car_list, crossable_line)  # detect cars respect to crossable line
     return car_list
