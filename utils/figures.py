@@ -50,7 +50,7 @@ class Region(object):
         return image
 
     @staticmethod
-    def get_line_equation(beginning_point: Point, ending_point: Point):
+    def get_line_equation(beginning_point, ending_point):
         """
         Y = Slope*X + b
         get_slope -> Slope
