@@ -12,10 +12,10 @@ class Point(object):
         return self.x, self.y
 
     def __str__(self):
-        return f'{self.x}, {self.y}'
+        return '{}, {}'.format(self.x, self.y)
 
     def __repr__(self):
-        return f'{self.x}, {self.y}'
+        return '{}, {}'.format(self.x, self.y)
 
 
 class Region(object):
@@ -84,10 +84,10 @@ class Region(object):
         return self.corners[0], self.corners[1]
 
     def __str__(self):
-        return (f"left-line: {self.left_line} \n"
-                f"top-line, {self.top_line}\n"
-                f"right-line, {self.right_line}\n"
-                f"bottom-line, {self.bottom_line}\n")
+        return ("left-line: {self.left_line} \n"
+                "top-line, {self.top_line}\n"
+                "right-line, {self.right_line}\n"
+                "bottom-line, {self.bottom_line}\n")
 
 
 class Line(object):

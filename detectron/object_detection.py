@@ -3,9 +3,11 @@ from os import path
 import cv2
 from uuid import uuid4
 
+from PIL import Image
+
 from analyzer.analyze_image import analyze_image
 from settings import *
-from pydarknet import Detector, Image
+from lib.keras_yolo3.yolo import YOLO
 import numpy as np
 
 from utils.figures import Point
@@ -17,10 +19,7 @@ class ObjectDetection(object):
     colors = [tuple(255 * np.random.rand(3)) for i in range(5)]
 
     def __init__(self, source, region):
-        self.net = Detector(bytes("cfg/yolov3.cfg", encoding="utf-8"), bytes("weights/yolov3.weights", encoding="utf-8"), 0,
-                   bytes("cfg/coco.data", encoding="utf-8"))
-        # self.net = load_net(1, "weights/yolov3.weights", 0)
-        # self.meta = load_meta("cfg/coco.data".encode('ascii'))
+        self.yolo = YOLO()
         self.region = region
         self.cap = cv2.VideoCapture(source)
         self.cap.set(cv2.CAP_PROP_FPS, VIDEO_IN_FPS)
@@ -33,17 +32,21 @@ class ObjectDetection(object):
         frame_counter = 0
         while True:
             _, frame = self.cap.read()
-            dark_frame = Image(frame)
-            results = self.net.detect(dark_frame)
-            del dark_frame
+            video_fps = self.cap.get(cv2.CAP_PROP_FPS)
+            video_size = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
+                          int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+            video_out_settings[2] = video_fps
+            video_out_settings[3] = video_size
+            out = cv2.VideoWriter(*video_out_settings)
+            image = Image.fromarray(frame)
+            results = self.yolo.detect_image(image)
             data = list()
-            for cat, score, bounds in results:
-                x, y, w, h = bounds
-                top_left_x = x-w/2
-                top_left_y = y-h/2
-                bottom_right_x = x+w/2
-                bottom_right_y = y+h/2
-                label = str(cat.decode("utf-8"))
+            for cat, score, tl, br in results:
+                top_left_x = tl[0]
+                top_left_y = tl[1]
+                bottom_right_x = br[0]
+                bottom_right_y = br[1]
+                label = cat
                 datum = (label, Point(**{'x': top_left_x, 'y': top_left_y}), Point(**{'x': bottom_right_x, 'y': bottom_right_y}))
                 data.append(datum)
                 frame = cv2.rectangle(frame, (top_left_x, top_left_y), (bottom_right_x, bottom_right_y), (255,0,0), 7)

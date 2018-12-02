@@ -90,7 +90,7 @@ class Person(Object):
                 target = list(filter(lambda p: p.pk == int(data[2]), persons))[0]
                 target.set_bounds(person.point_l_t, person.point_r_b)
                 return
-            elif 0 < data[0] < cls.bound_pixel and data[3] == 2:
+            elif 0 < data[0] < cls.bound_pixel and int(data[3]) == 2:
                 # going from right
                 target = list(filter(lambda p: p.pk == int(data[2]), persons))[0]
                 target.set_bounds(person.point_l_t, person.point_r_b)
