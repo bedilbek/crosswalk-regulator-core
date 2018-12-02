@@ -8,7 +8,7 @@ crossable_lines = list()
 global_person_list = list()
 
 
-def analyze(object_list: list, region: Region):
+def analyze(object_list, region):
     top_line_points = region.top_line
     top_line_points = (top_line_points[0].x, top_line_points[1].x)
 
@@ -18,7 +18,7 @@ def analyze(object_list: list, region: Region):
                 return i
         return len(object_list)
 
-    def filter_persons(persons: list):
+    def filter_persons(persons):
         """
         Remove persons who do not enter to cross region
         """
@@ -30,7 +30,7 @@ def analyze(object_list: list, region: Region):
             else:
                 index += 1
 
-    def filter_cars(cars: list, persons: list):
+    def filter_cars(cars, persons):
         # TODO:think filtering
         def find_boundary():
             """

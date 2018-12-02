@@ -7,8 +7,8 @@ class Object(object):
     def __init__(self, obj_type, point_l_t, point_r_b, direction=None, pk=None):
         self.obj_type = obj_type
         self.pk = pk
-        self.point_l_t: Point = point_l_t
-        self.point_r_b: Point = point_r_b
+        self.point_l_t = point_l_t
+        self.point_r_b = point_r_b
         self.direction = direction
 
 
@@ -30,7 +30,7 @@ class Person(Object):
     def x_cross_point(self):
         return (self.point_l_t.x + self.point_r_b.x) / 2, self.point_r_b.y
 
-    def get_side_c(self, p_1: Point, p_2: Point):
+    def get_side_c(self, p_1, p_2):
         mid_x, bottom_y = self.x_cross_point
         c = (mid_x - p_1.x) * (p_2.y - p_1.y) - (bottom_y - p_1.y) * (p_2.x - p_1.x)
         return c
@@ -39,7 +39,7 @@ class Person(Object):
         c = (p_1.x - p_1.x) - 1 * (p_2.y - p_1.y) - (p_1.y - p_1.y + 1) * (p_2.x - p_1.x)
         return c
 
-    def is_in_region(self, region: Region):
+    def is_in_region(self, region):
         assert self.direction
         if self.direction == 'lr':
             decision = self.decide_side(*region.left_line)
@@ -53,7 +53,7 @@ class Person(Object):
     def get_x_boundaries(self):
         return self.point_l_t.x, self.point_r_b.x
 
-    def find_direction(self, region: Region):
+    def find_direction(self, region):
         if self.direction:
             return
 
@@ -74,7 +74,7 @@ class Person(Object):
 
     # initialize new person or update
     @classmethod
-    def update_or_add(cls, persons: list, person, region):
+    def update_or_add(cls, persons, person, region):
         direction = dict(
             lr=1,
             rl=2,
@@ -87,16 +87,16 @@ class Person(Object):
         for i, data in enumerate(array):
             if 0 > data[0] > -cls.bound_pixel and int(data[3]) == 1:
                 # going from left
-                target: Person = list(filter(lambda p: p.pk == int(data[2]), persons))[0]
+                target = list(filter(lambda p: p.pk == int(data[2]), persons))[0]
                 target.set_bounds(person.point_l_t, person.point_r_b)
                 return
             elif 0 < data[0] < cls.bound_pixel and data[3] == 2:
                 # going from right
-                target: Person = list(filter(lambda p: p.pk == int(data[2]), persons))[0]
+                target = list(filter(lambda p: p.pk == int(data[2]), persons))[0]
                 target.set_bounds(person.point_l_t, person.point_r_b)
                 return
             elif data[0] == float(0) and data[1] == float(0):
-                target: Person = list(filter(lambda p: p.pk == int(data[2]), persons))[0]
+                target = list(filter(lambda p: p.pk == int(data[2]), persons))[0]
                 target.set_bounds(person.point_l_t, person.point_r_b)
                 return
         person.pk = cls.index
