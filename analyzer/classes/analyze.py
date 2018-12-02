@@ -91,8 +91,12 @@ def analyze(object_list: list, region: Region):
         car_list = object_list[:barrier + 1]  # get cars from list
         person_list = object_list[barrier + 1:]  # get persons from list
     else:
-        person_list = object_list
-        car_list = []
+        if object_list[0].object_type == 'car':
+            car_list = object_list
+            person_list = []
+        else:
+            car_list = []
+            person_list = object_list
     from analyzer.classes.objects import Person
     for person in person_list:
         Person.update_or_add(global_person_list, person, region)
