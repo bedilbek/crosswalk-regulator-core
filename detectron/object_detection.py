@@ -1,3 +1,5 @@
+from os import path
+
 import cv2
 from uuid import uuid4
 
@@ -29,7 +31,7 @@ class ObjectDetection(object):
     def detect(self):
         processed_frame_counter = 0
         fourcc = cv2.VideoWriter_fourcc(*VIDEO_OUT_CODEC)
-        video_out_settings = ['{}{}{}'.format(VIDEO_OUT_PATH, uuid4(), VIDEO_OUT_EXTENSION), fourcc, VIDEO_OUT_FPS, VIDEO_OUT_FRAME_SIZE]
+        video_out_settings = [path.join(BASE_DIR, VIDEO_OUT_PATH, str(uuid4()), VIDEO_OUT_EXTENSION), fourcc, VIDEO_OUT_FPS, VIDEO_OUT_FRAME_SIZE]
         out = cv2.VideoWriter(*video_out_settings)
         frame_counter = 0
         while True:
