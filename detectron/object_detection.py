@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from analyzer.analyze_image import analyze_image
 from settings import *
-from darkflow.net.build import TFNet
+from pydarknet import Detector, Image
 import numpy as np
 
 from utils.figures import Point
@@ -13,17 +13,14 @@ from utils.make_objects import make_objects
 
 
 class ObjectDetection(object):
-    option = {
-        'model': os.path.join(BASE_DIR, 'cfg/yolo.cfg'),
-        'load': os.path.join(BASE_DIR, 'weights/yolo.weights'),
-        'threshold': 0.15,
-        'gpu': 1.0
-    }
 
     colors = [tuple(255 * np.random.rand(3)) for i in range(5)]
 
     def __init__(self, source, region):
-        self.tfnet = TFNet(self.option)
+        self.net = Detector(bytes("cfg/yolov3.cfg", encoding="utf-8"), bytes("weights/yolov3.weights", encoding="utf-8"), 0,
+                   bytes("cfg/coco.data", encoding="utf-8"))
+        # self.net = load_net(1, "weights/yolov3.weights", 0)
+        # self.meta = load_meta("cfg/coco.data".encode('ascii'))
         self.region = region
         self.cap = cv2.VideoCapture(source)
         self.cap.set(cv2.CAP_PROP_FPS, VIDEO_IN_FPS)
@@ -36,16 +33,21 @@ class ObjectDetection(object):
         frame_counter = 0
         while True:
             _, frame = self.cap.read()
-            results = self.tfnet.return_predict(frame)
+            dark_frame = Image(frame)
+            results = self.net.detect(dark_frame)
+            del dark_frame
             data = list()
-            for color, result in zip(self.colors, results):
-                tl = (result['topleft']['x'], result['topleft']['y'])
-                br = (result['bottomright']['x'], result['bottomright']['y'])
-                label = result['label']
-                datum = (label, Point(**result['topleft']), Point(**result['bottomright']))
+            for cat, score, bounds in results:
+                x, y, w, h = bounds
+                top_left_x = x-w/2
+                top_left_y = y-h/2
+                bottom_right_x = x+w/2
+                bottom_right_y = y+h/2
+                label = str(cat.decode("utf-8"))
+                datum = (label, Point(**{'x': top_left_x, 'y': top_left_y}), Point(**{'x': bottom_right_x, 'y': bottom_right_y}))
                 data.append(datum)
-                frame = cv2.rectangle(frame, tl, br, color, 7)
-                frame = cv2.putText(frame, label, tl, cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
+                frame = cv2.rectangle(frame, (top_left_x, top_left_y), (bottom_right_x, bottom_right_y), (255,0,0), 7)
+                frame = cv2.putText(frame, label, (top_left_x, top_left_y), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
             # Writing object detected frame to disk
             if frame_counter == VIDEO_OUT_INTERVAL:
                 out.release()
@@ -60,7 +62,7 @@ class ObjectDetection(object):
                 processed_frame_counter += 1
                 print("{} frames completed".format(processed_frame_counter))
             #  checking for violation
-            violated = analyze_image(make_objects(data=data), region=self.region)
+            # violated = analyze_image(make_objects(data=data), region=self.region)
             # TODO should be completed for the case of detected violation
             if VIDEO_PREVIEW:
                 cv2.imshow('frame', frame)
