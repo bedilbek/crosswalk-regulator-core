@@ -289,7 +289,7 @@ def testing_right_and_left():
     assert result == []
 
     data = [
-        ['person', Point(5, 4), Point(6, 4)],
+        ['person', Point(4, 4), Point(5, 4)],
         ['car', Point(5, 12), Point(7, 8)],
         ['person', Point(8, 5), Point(9, 5)],
     ]
@@ -298,7 +298,7 @@ def testing_right_and_left():
     assert result == []
 
     data = [
-        ['person', Point(6, 4), Point(7, 4)],
+        ['person', Point(5, 4), Point(6, 4)],
         ['car', Point(5, 12), Point(7, 8)],
         ['car', Point(3, 15), Point(5, 11)],
         ['person', Point(7, 5), Point(8, 5)],
@@ -308,7 +308,7 @@ def testing_right_and_left():
     assert result == []
 
     data = [
-        ['person', Point(7, 4), Point(8, 4)],
+        ['person', Point(6, 4), Point(7, 4)],
         ['car', Point(5, 12), Point(7, 8)],
         ['car', Point(3, 15), Point(5, 11)],
         ['person', Point(6, 5), Point(7, 5)],
@@ -318,7 +318,7 @@ def testing_right_and_left():
     assert result == []
 
     data = [
-        ['person', Point(8, 4), Point(9, 4)],
+        ['person', Point(7, 4), Point(8, 4)],
         ['car', Point(5, 12), Point(7, 8)],
         ['car', Point(3, 15), Point(5, 11)],
         ['person', Point(5, 5), Point(6, 5)],
@@ -328,7 +328,7 @@ def testing_right_and_left():
     assert result == []
 
     data = [
-        ['person', Point(8, 4), Point(9, 4)],
+        ['person', Point(9, 4), Point(10, 4)],
         ['car', Point(5, 12), Point(7, 8)],
         ['car', Point(3, 15), Point(5, 11)],
         ['person', Point(4, 5), Point(5, 5)],
@@ -338,7 +338,7 @@ def testing_right_and_left():
     assert result == []
 
     data = [
-        ['person', Point(8, 4), Point(9, 4)],
+        ['person', Point(10, 4), Point(11, 4)],
         ['car', Point(5, 12), Point(7, 8)],
         ['car', Point(3, 15), Point(5, 11)],
         ['person', Point(3, 5), Point(4, 5)],
@@ -348,7 +348,7 @@ def testing_right_and_left():
     assert result != []
 
     data = [
-        ['person', Point(8, 4), Point(9, 4)],
+        ['person', Point(11, 4), Point(12, 4)],
         ['car', Point(5, 11), Point(7, 7)],
         ['car', Point(3, 14), Point(5, 10)],
         ['person', Point(3, 5), Point(4, 5)],
@@ -358,7 +358,7 @@ def testing_right_and_left():
     assert result == []
 
     data = [
-        ['person', Point(8, 4), Point(9, 4)],
+        ['person', Point(12, 4), Point(13, 4)],
         ['car', Point(5, 10), Point(7, 6)],
         ['car', Point(3, 13), Point(5, 10)],
         ['person', Point(3, 5), Point(4, 5)],
@@ -368,7 +368,7 @@ def testing_right_and_left():
     assert result == []
 
     data = [
-        ['person', Point(8, 4), Point(9, 4)],
+        ['person', Point(13, 4), Point(14, 4)],
         ['car', Point(5, 9), Point(7, 5)],
         ['car', Point(3, 12), Point(5, 9)],
         ['person', Point(3, 5), Point(4, 5)],
@@ -378,7 +378,7 @@ def testing_right_and_left():
     assert result == []
 
     data = [
-        ['person', Point(8, 4), Point(9, 4)],
+        ['person', Point(14, 4), Point(15, 4)],
         ['car', Point(5, 8), Point(7, 4)],
         ['car', Point(3, 11), Point(5, 8)],
         ['person', Point(3, 5), Point(4, 5)],
@@ -388,7 +388,7 @@ def testing_right_and_left():
     assert result == []
 
     data = [
-        ['person', Point(8, 4), Point(9, 4)],
+        ['person', Point(15, 4), Point(16, 4)],
         ['car', Point(5, 7), Point(7, 3)],
         ['car', Point(3, 10), Point(5, 7)],
         ['person', Point(3, 5), Point(4, 5)],
@@ -398,7 +398,7 @@ def testing_right_and_left():
     assert result == []
 
     data = [
-        ['person', Point(8, 4), Point(9, 4)],
+        ['person', Point(16, 4), Point(17, 4)],
         ['car', Point(5, 6), Point(7, 2)],
         ['car', Point(3, 9), Point(5, 6)],
         ['person', Point(3, 5), Point(4, 5)],
