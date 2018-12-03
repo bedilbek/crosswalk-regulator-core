@@ -3,7 +3,6 @@ import operator
 from analyzer.classes.objects import Car
 from utils.figures import Region
 
-# TODO: crossable line
 crossable_lines = list()
 global_person_list = list()
 
@@ -12,11 +11,17 @@ def analyze(object_list, region):
     top_line_points = region.top_line
     top_line_points = (top_line_points[0].x, top_line_points[1].x)
 
-    def get_barrier():
-        for i in range(len(object_list) - 1):
-            if object_list[i].obj_type != object_list[i + 1].obj_type:
-                return i
-        return len(object_list)
+    def separate_objects():
+        p = list()
+        c = list()
+        classification = dict(
+            car=c,
+            person=p,
+        )
+        for object_ in object_list:
+            classification[object_.obj_type].append(object_)
+
+        return p, c
 
     def filter_persons(persons):
         """
@@ -85,18 +90,7 @@ def analyze(object_list, region):
             else:
                 cars.pop(index)
 
-    object_list.sort(key=operator.attrgetter('obj_type'))  # Sort to cars and persons
-    barrier = get_barrier()  # Find barrier of person and car
-    if barrier != len(object_list):
-        car_list = object_list[:barrier + 1]  # get cars from list
-        person_list = object_list[barrier + 1:]  # get persons from list
-    else:
-        if object_list[0].object_type == 'car':
-            car_list = object_list
-            person_list = []
-        else:
-            car_list = []
-            person_list = object_list
+    car_list, person_list = separate_objects()  # Find barrier of person and car
     from analyzer.classes.objects import Person
     for person in person_list:
         Person.update_or_add(global_person_list, person, region)

@@ -16,7 +16,6 @@ from utils.make_objects import make_objects
 
 
 class ObjectDetection(object):
-
     colors = [tuple(255 * np.random.rand(3)) for i in range(5)]
 
     def __init__(self, source, region):
@@ -28,7 +27,8 @@ class ObjectDetection(object):
     def detect(self):
         processed_frame_counter = 0
         fourcc = cv2.VideoWriter_fourcc(*VIDEO_OUT_CODEC)
-        video_out_settings = [path.join(BASE_DIR, VIDEO_OUT_PATH, str(uuid4()), VIDEO_OUT_EXTENSION), fourcc, VIDEO_OUT_FPS, VIDEO_OUT_FRAME_SIZE]
+        video_out_settings = [path.join(BASE_DIR, VIDEO_OUT_PATH, str(uuid4()), VIDEO_OUT_EXTENSION), fourcc,
+                              VIDEO_OUT_FPS, VIDEO_OUT_FRAME_SIZE]
         out = cv2.VideoWriter(*video_out_settings)
         frame_counter = 0
         while True:
@@ -49,9 +49,10 @@ class ObjectDetection(object):
                 bottom_right_x = br[0]
                 bottom_right_y = br[1]
                 label = cat
-                datum = (label, Point(**{'x': top_left_x, 'y': top_left_y}), Point(**{'x': bottom_right_x, 'y': bottom_right_y}))
+                datum = (
+                label, Point(**{'x': top_left_x, 'y': top_left_y}), Point(**{'x': bottom_right_x, 'y': bottom_right_y}))
                 data.append(datum)
-                frame = cv2.rectangle(frame, (top_left_x, top_left_y), (bottom_right_x, bottom_right_y), (255,0,0), 7)
+                frame = cv2.rectangle(frame, (top_left_x, top_left_y), (bottom_right_x, bottom_right_y), (255, 0, 0), 7)
                 frame = cv2.putText(frame, label, (top_left_x, top_left_y), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
             # Writing object detected frame to disk
             if frame_counter == VIDEO_OUT_INTERVAL:
@@ -64,9 +65,9 @@ class ObjectDetection(object):
                 out.write(frame)
             validation = analyze_image(make_objects(data), self.region)
             if validation:
-                #text_image = cv2.resize(text_image, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
-                #text = image_to_string(image=text_image, config=path.join(BASE_DIR, TESSERACT_CONFIG_PATH, 'bazaar'),
-                 #                      output_type=Output.STRING)
+                # text_image = cv2.resize(text_image, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
+                # text = image_to_string(image=text_image, config=path.join(BASE_DIR, TESSERACT_CONFIG_PATH, 'bazaar'),
+                #                      output_type=Output.STRING)
                 cv2.putText(frame, "violation: ", (50, 50), cv2.FONT_HERSHEY_COMPLEX, 2, (255, 232, 0), 2)
             frame_counter += 1
             if PROCESSED_VIDEO_FRAME_COUNTER_PREVIEW:

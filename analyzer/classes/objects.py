@@ -14,7 +14,7 @@ class Object(object):
 
 class Person(Object):
     index = 1
-    bound_pixel = 2
+    bound_pixel = 40
 
     def __init__(self, point_l_t, point_r_b, direction=None, pk=None):
         super(Person, self).__init__(obj_type='person', point_l_t=point_l_t, point_r_b=point_r_b,
@@ -107,7 +107,7 @@ class Person(Object):
 
 
 class Car(Object):
-    bound_pixel = 2
+    bound_pixel = 40
 
     def __init__(self, point_l_t, point_r_b, direction=None, pk=None):
         super(Car, self).__init__(obj_type='car', point_l_t=point_l_t, point_r_b=point_r_b,
