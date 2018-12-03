@@ -36,10 +36,14 @@ class Region(object):
         :return:
         """
         self.corners.sort(key=operator.attrgetter('x'))
-        self.corners[:2].sort(key=operator.attrgetter('y'))
-        self.corners[2:].sort(key=operator.attrgetter('y'))
-        bottom_left = self.corners.pop(1)
-        self.corners.append(bottom_left)
+        left_side = self.corners[:2]
+        left_side.sort(key=operator.attrgetter('y'))
+        right_side = self.corners[2:]
+        right_side.sort(key=operator.attrgetter('y'))
+        self.corners[0] = left_side[1]
+        self.corners[1] = right_side[1]
+        self.corners[2] = right_side[0]
+        self.corners[3] = left_side[0]
 
     def draw_region(self, image):
         for i, point in enumerate(self.corners):

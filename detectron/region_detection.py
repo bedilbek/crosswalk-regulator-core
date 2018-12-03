@@ -24,7 +24,7 @@ class RegionDetection(object):
         _, image_frame = self.capture.read()
         while _:
             if region.is_ready:
-                # region.sort()
+                region.sort()
                 image_frame = region.draw_region(image_frame)
                 image_frame = cv2.putText(image_frame,
                                           "Region is set up, please press q to continue...",

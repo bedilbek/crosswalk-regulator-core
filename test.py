@@ -251,6 +251,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 1
 
     data = [
         ['person', Point(2, 4), Point(3, 4)],
@@ -260,6 +261,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(2, 4), Point(3, 4)],
@@ -269,6 +271,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(2, 4), Point(3, 4)],
@@ -278,6 +281,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(3, 4), Point(4, 4)],
@@ -287,6 +291,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(4, 4), Point(5, 4)],
@@ -296,6 +301,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(5, 4), Point(6, 4)],
@@ -306,6 +312,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(6, 4), Point(7, 4)],
@@ -316,6 +323,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(7, 4), Point(8, 4)],
@@ -326,6 +334,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(9, 4), Point(10, 4)],
@@ -336,6 +345,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(10, 4), Point(11, 4)],
@@ -346,6 +356,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result != []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(11, 4), Point(12, 4)],
@@ -356,6 +367,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(12, 4), Point(13, 4)],
@@ -366,6 +378,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(13, 4), Point(14, 4)],
@@ -376,6 +389,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(14, 4), Point(15, 4)],
@@ -386,6 +400,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(15, 4), Point(16, 4)],
@@ -396,6 +411,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
     data = [
         ['person', Point(16, 4), Point(17, 4)],
@@ -406,6 +422,7 @@ def testing_right_and_left():
     objects = make_objects(data)
     result = analyze(objects, region)
     assert result == []
+    assert len(global_person_list) == 2
 
 
 testing_left_right()
