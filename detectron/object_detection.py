@@ -1,16 +1,13 @@
 from os import path
-
-import cv2
 from uuid import uuid4
 
+import cv2
+import numpy as np
 from PIL import Image
-from pytesseract import image_to_string, Output
 
 from analyzer.analyze_image import analyze_image
-from settings import *
 from lib.keras_yolo3.yolo import YOLO
-import numpy as np
-
+from settings import *
 from utils.figures import Point
 from utils.make_objects import make_objects
 
@@ -22,6 +19,8 @@ class ObjectDetection(object):
         self.yolo = YOLO()
         self.region = region
         self.cap = cv2.VideoCapture(source)
+        cv2.namedWindow('frame', cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('frame', 1400, 800)
         self.cap.set(cv2.CAP_PROP_FPS, VIDEO_IN_FPS)
 
     def detect(self):
@@ -50,10 +49,12 @@ class ObjectDetection(object):
                 bottom_right_y = br[1]
                 label = cat
                 datum = (
-                label, Point(**{'x': top_left_x, 'y': top_left_y}), Point(**{'x': bottom_right_x, 'y': bottom_right_y}))
+                    label, Point(**{'x': top_left_x, 'y': top_left_y}),
+                    Point(**{'x': bottom_right_x, 'y': bottom_right_y}))
                 data.append(datum)
-                frame = cv2.rectangle(frame, (top_left_x, top_left_y), (bottom_right_x, bottom_right_y), (255, 0, 0), 7)
+                frame = cv2.rectangle(frame, (top_left_x, top_left_y), (bottom_right_x, bottom_right_y), (255, 0, 0), 3)
                 frame = cv2.putText(frame, label, (top_left_x, top_left_y), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
+            self.region.draw_region(frame)
             # Writing object detected frame to disk
             if frame_counter == VIDEO_OUT_INTERVAL:
                 out.release()
@@ -63,7 +64,7 @@ class ObjectDetection(object):
                 out.write(frame)
             else:
                 out.write(frame)
-            validation = analyze_image(make_objects(data), self.region)
+            validation, frame = analyze_image(make_objects(data), self.region, frame)
             if validation:
                 # text_image = cv2.resize(text_image, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
                 # text = image_to_string(image=text_image, config=path.join(BASE_DIR, TESSERACT_CONFIG_PATH, 'bazaar'),

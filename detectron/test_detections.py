@@ -9,6 +9,7 @@ from os import path
 from pytesseract import image_to_string, Output
 import cv2
 
+
 def test_make_objects_for_analysis():
     data = (
         ('person', Point(**{'x': 1, 'y': 3}), Point(**{'x': 3, 'y': 23})),
@@ -24,6 +25,7 @@ def test_make_objects_for_analysis():
 
     assert isinstance(object_list[0], Person)
     assert isinstance(object_list[3], Car)
+
 
 def test_region_detection():
     region_detection = RegionDetection(0)
@@ -44,10 +46,9 @@ def test_text_detection():
     kernel = np.ones((1, 1), np.uint8)
     image = cv2.dilate(image, kernel, iterations=1)
     image = cv2.erode(image, kernel, iterations=1)
-    text = image_to_string(image=image, config=path.join(BASE_DIR, TESSERACT_CONFIG_PATH, 'bazaar'), output_type=Output.DICT)
+    text = image_to_string(image=image, config=path.join(BASE_DIR, TESSERACT_CONFIG_PATH, 'bazaar'),
+                           output_type=Output.DICT)
     assert text is not None
-
-
 
 
 # test_make_objects_for_analysis()

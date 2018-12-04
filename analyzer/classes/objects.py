@@ -14,7 +14,7 @@ class Object(object):
 
 class Person(Object):
     index = 1
-    bound_pixel = 40
+    bound_pixel = 80
 
     def __init__(self, point_l_t, point_r_b, direction=None, pk=None):
         super(Person, self).__init__(obj_type='person', point_l_t=point_l_t, point_r_b=point_r_b,
@@ -36,7 +36,7 @@ class Person(Object):
         return c
 
     def decide_side(self, p_1, p_2):
-        c = (p_1.x - p_1.x) - 1 * (p_2.y - p_1.y) - (p_1.y - p_1.y + 1) * (p_2.x - p_1.x)
+        c = (p_1.x - p_1.x - 1) * (p_2.y - p_1.y) - (p_1.y - p_1.y + 1) * (p_2.x - p_1.x)
         return c
 
     def is_in_region(self, region):

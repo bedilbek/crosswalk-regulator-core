@@ -17,7 +17,8 @@ class RegionDetection(object):
     def __init__(self, url=0):
         self.url = url
         self.capture = cv2.VideoCapture(url)
-        cv2.namedWindow('region')
+        cv2.namedWindow('region', cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('region', 1400, 800)
         cv2.setMouseCallback('region', on_mouse)
 
     def detect_region(self):
