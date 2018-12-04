@@ -7,6 +7,7 @@ VIDEO_PREVIEW = True  # show the video being processed
 
 VIDEO_IN_FPS = 20  # change based on GPU power
 
+VIDEO_OUT_FULL = True
 
 VIDEO_OUT_FPS = 20  # number of frames per second
 VIDEO_OUT_INTERVAL = 100  # number of frames

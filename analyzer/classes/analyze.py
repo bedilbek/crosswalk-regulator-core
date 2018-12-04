@@ -87,16 +87,16 @@ def analyze(object_list, region):
 
     object_list.sort(key=operator.attrgetter('obj_type'))  # Sort to cars and persons
     barrier = get_barrier()  # Find barrier of person and car
-    if barrier != len(object_list):
-        car_list = object_list[:barrier + 1]  # get cars from list
-        person_list = object_list[barrier + 1:]  # get persons from list
-    else:
-        if object_list[0].object_type == 'car':
-            car_list = object_list
-            person_list = []
-        else:
-            car_list = []
-            person_list = object_list
+    #if barrier != len(object_list):
+    car_list = object_list[:barrier + 1]  # get cars from list
+    person_list = object_list[barrier + 1:]  # get persons from list
+    #else:
+    #    if object_list[0].object_type == 'car':
+    #        car_list = object_list
+    #        person_list = []
+    #    else:
+    #        car_list = []
+    #        person_list = object_list
     from analyzer.classes.objects import Person
     for person in person_list:
         Person.update_or_add(global_person_list, person, region)

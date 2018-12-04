@@ -28,15 +28,18 @@ class ObjectDetection(object):
     def detect(self):
         processed_frame_counter = 0
         fourcc = cv2.VideoWriter_fourcc(*VIDEO_OUT_CODEC)
+        video_interval_counter = 1
         video_out_settings = [path.join(BASE_DIR, VIDEO_OUT_PATH, str(uuid4()), VIDEO_OUT_EXTENSION), fourcc, VIDEO_OUT_FPS, VIDEO_OUT_FRAME_SIZE]
         out = cv2.VideoWriter(*video_out_settings)
         frame_counter = 0
         while True:
             _, frame = self.cap.read()
+            #video_fcc = self.cap.get(cv2.CAP_PROP_FOURCC)
             video_fps = self.cap.get(cv2.CAP_PROP_FPS)
             video_size = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
                           int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
             text_image = frame.copy()
+            #video_out_settings[1] = video_fcc
             video_out_settings[2] = video_fps
             video_out_settings[3] = video_size
             out = cv2.VideoWriter(*video_out_settings)
