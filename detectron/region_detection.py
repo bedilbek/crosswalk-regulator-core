@@ -3,13 +3,15 @@ import cv2
 from utils.figures import Region, Point
 
 region = Region()
-
+image_frame = None
 
 def on_mouse(event, x, y, flags, params):
-    global region
+    global region, image_frame
 
     if event == cv2.EVENT_LBUTTONUP:
         region.add_corner(Point(x=x, y=y))
+
+        image_frame = region.draw_region(image_frame)
 
 
 class RegionDetection(object):
@@ -21,6 +23,7 @@ class RegionDetection(object):
         cv2.setMouseCallback('region', on_mouse)
 
     def detect_region(self):
+        global image_frame
         _, image_frame = self.capture.read()
         while _:
             if region.is_ready:

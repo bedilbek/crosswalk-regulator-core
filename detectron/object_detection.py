@@ -28,19 +28,27 @@ class ObjectDetection(object):
     def detect(self):
         processed_frame_counter = 0
         fourcc = cv2.VideoWriter_fourcc(*VIDEO_OUT_CODEC)
-        video_out_settings = [path.join(BASE_DIR, VIDEO_OUT_PATH, str(uuid4()), VIDEO_OUT_EXTENSION), fourcc, VIDEO_OUT_FPS, VIDEO_OUT_FRAME_SIZE]
+        interval_counter = 1
+        video_out_settings = [
+            '{}{}{}'.format(VIDEO_OUT_PATH, str(interval_counter), VIDEO_OUT_EXTENSION),
+            fourcc,
+            VIDEO_OUT_FPS,
+            VIDEO_OUT_FRAME_SIZE
+        ]
+        # video_fcc = self.cap.get(cv2.CAP_PROP_FOURCC)
+        # video_out_settings[1] = int(video_fcc)
         out = cv2.VideoWriter(*video_out_settings)
-        frame_counter = 0
+        frame_counter = 1
         while True:
             _, frame = self.cap.read()
-            video_fps = self.cap.get(cv2.CAP_PROP_FPS)
-            video_size = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
-                          int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-            text_image = frame.copy()
-            video_out_settings[2] = video_fps
-            video_out_settings[3] = video_size
-            out = cv2.VideoWriter(*video_out_settings)
+            if not _:
+                if out:
+                    out.release()
+                    video_out_settings[0] = '{}{}{}'.format(VIDEO_OUT_PATH, str(interval_counter + 1), VIDEO_OUT_EXTENSION)
+                    out = cv2.VideoWriter(*video_out_settings)
+                break
             image = Image.fromarray(frame)
+            # text_image = frame.copy()
             results = self.yolo.detect_image(image)
             data = list()
             for cat, score, tl, br in results:
@@ -49,25 +57,26 @@ class ObjectDetection(object):
                 bottom_right_x = br[0]
                 bottom_right_y = br[1]
                 label = cat
-                datum = (label, Point(**{'x': top_left_x, 'y': top_left_y}), Point(**{'x': bottom_right_x, 'y': bottom_right_y}))
+                datum = (
+                label, Point(**{'x': top_left_x, 'y': top_left_y}), Point(**{'x': bottom_right_x, 'y': bottom_right_y}))
                 data.append(datum)
-                frame = cv2.rectangle(frame, (top_left_x, top_left_y), (bottom_right_x, bottom_right_y), (255,0,0), 7)
+                frame = cv2.rectangle(frame, (top_left_x, top_left_y), (bottom_right_x, bottom_right_y), (255, 0, 0), 7)
                 frame = cv2.putText(frame, label, (top_left_x, top_left_y), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
             # Writing object detected frame to disk
             if frame_counter == VIDEO_OUT_INTERVAL:
-                out.release()
-                frame_counter = 0
-                video_out_settings[0] = '{}{}{}'.format(VIDEO_OUT_PATH, uuid4(), VIDEO_OUT_EXTENSION)
-                out = cv2.VideoWriter(*video_out_settings)
-                out.write(frame)
-            else:
-                out.write(frame)
+                if not VIDEO_OUT_FULL:
+                    out.release()
+                    frame_counter = 0
+                    interval_counter += 1
+                    video_out_settings[0] = '{}{}{}'.format(VIDEO_OUT_PATH, str(interval_counter), VIDEO_OUT_EXTENSION)
+                    out = cv2.VideoWriter(*video_out_settings)
             validation = analyze_image(make_objects(data), self.region)
             if validation:
-                #text_image = cv2.resize(text_image, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
-                #text = image_to_string(image=text_image, config=path.join(BASE_DIR, TESSERACT_CONFIG_PATH, 'bazaar'),
-                 #                      output_type=Output.STRING)
+                # text_image = cv2.resize(text_image, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
+                # text = image_to_string(image=text_image, config=path.join(BASE_DIR, TESSERACT_CONFIG_PATH, 'bazaar'),
+                #                      output_type=Output.STRING)
                 cv2.putText(frame, "violation: ", (50, 50), cv2.FONT_HERSHEY_COMPLEX, 2, (255, 232, 0), 2)
+            out.write(frame)
             frame_counter += 1
             if PROCESSED_VIDEO_FRAME_COUNTER_PREVIEW:
                 processed_frame_counter += 1
@@ -82,5 +91,4 @@ class ObjectDetection(object):
                     break
 
     def start(self):
-        while True:
-            self.detect()
+        self.detect()
