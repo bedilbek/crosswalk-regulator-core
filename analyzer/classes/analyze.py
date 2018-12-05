@@ -72,7 +72,7 @@ def analyze(object_list, region):
             else:
                 not_crossable_line[3] = max(r_boundary, not_crossable_line[3])
 
-        if not_crossable_line[0] != not_crossable_line[1] and not_crossable_line[2] != not_crossable_line[3]:
+        if not_crossable_line[0] != not_crossable_line[1]:
             lines.append(
                 Line(
                     Point(not_crossable_line[0], int(s * not_crossable_line[0] + b)),
@@ -80,6 +80,8 @@ def analyze(object_list, region):
                     False
                 )
             )
+
+        if not_crossable_line[2] != not_crossable_line[3]:
             lines.append(
                 Line(
                     Point(not_crossable_line[2], int(s * not_crossable_line[2] + b)),
@@ -97,7 +99,7 @@ def analyze(object_list, region):
             )
         return lines
 
-    def detect_cars(cars, lines):
+    def detect_cars(cars, regulation_line):
         """
         detect cars whether between green line
         :param cars:
@@ -110,7 +112,7 @@ def analyze(object_list, region):
         for _ in range(cars_size):
             x_left, x_right = cars[index].x_points()
             counter = 0
-            for line in lines:
+            for line in regulation_line:
                 x_left_bound, x_right_bound = line.get_x_points()
                 if not line.accessible and x_left_bound < x_left and x_right_bound > x_right:
                     counter += 1

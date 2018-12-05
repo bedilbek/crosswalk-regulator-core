@@ -32,10 +32,12 @@ class ObjectDetection(object):
         frame_counter = 0
         while True:
             _, frame = self.cap.read()
+            if not _:
+                break
             video_fps = self.cap.get(cv2.CAP_PROP_FPS)
             video_size = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
                           int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-            text_image = frame.copy()
+            #text_image = frame.copy()
             video_out_settings[2] = video_fps
             video_out_settings[3] = video_size
             out = cv2.VideoWriter(*video_out_settings)
@@ -84,5 +86,4 @@ class ObjectDetection(object):
                     break
 
     def start(self):
-        while True:
-            self.detect()
+        self.detect()
